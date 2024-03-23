@@ -1,5 +1,5 @@
 # export AWS_DEFAULT_REGION='us-west-2'
-# nohup streamlit run app.py --server.port 8502 &
+# nohup streamlit run app.py --server.port 8503 &
 
 import streamlit as st
 import fitz
