@@ -1,5 +1,5 @@
 # export AWS_DEFAULT_REGION='us-west-2'
-# nohup streamlit run app.py --server.port 8503 &
+# nohup streamlit run app.py args --server.fileWatcherType none --server.port 8504 &
 
 import streamlit as st
 import fitz
@@ -231,7 +231,8 @@ def find_answer_in_sentences(image_description, user_keyword):
         사용자가 제시한 사용자 키워드는 "{user_keyword}" 입니다.
         여행제목의 글자색은 흰색으로 표시해줘.
         리뷰내용에 사용자 키워드와 비슷한 문구는 markdown의 태그를 활용해서 녹색으로 표시해줘.
-        만약 제공된 정보 중 사용자 키워드와 관계된 내용이 없다면 제공된 정보를 사용하지 말고 키워드 중심으로 적절하게 리뷰를 400자 내로 작성해주세요."""
+        만약 제공된 정보 중 사용자 키워드와 관계된 내용이 없다면 제공된 정보를 사용하지 말고 키워드 중심으로 적절하게 리뷰를 400자 내로 작성해주세요.
+        다른 안내 문장은 제공하지 말고 여행 리뷰만 작성해줘."""
 
         print("## question : ",question)
 
@@ -247,12 +248,13 @@ def find_answer_in_sentences(image_description, user_keyword):
         
         # Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer. don't include harmful content        
         # SQL 생성 시 최대 10개의 레코드만 표시되도록 SQL의 가장 하단에 Limit 10을 SQL에 포함시켜줘. 그리고 Limit 10을 임의로 추가했다고 초록색 글자로 안내해줘.
+        # 제공된 정보 중 사용자 키워드와 관련있는 정보만 사용해줘.
+        # 다른 안내 문장은 제공하지 말고 여행 리뷰만 작성해줘.
+
         prompt_template = """
         Use the following pieces of context to answer the question at the end.       
 
         {context}
-        제공된 정보 중 사용자 키워드와 관련있는 정보만 사용해줘.
-        다른 안내 문장은 제공하지 말고 여행 리뷰만 작성해줘.
         여행 제목의 글자 크기는 markdown의 H3 사이즈를 사용해줘.
 
         Question: {question}
