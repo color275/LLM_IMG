@@ -228,7 +228,7 @@ def find_answer_in_sentences(image_description, user_keyword):
         이 이미지는 "{image_description}"와 관련이 있습니다. 
         사용자가 제시한 사용자 키워드는 "{user_keyword}" 입니다.
         여행제목의 글자색은 흰색으로 표시해줘.
-        리뷰내용에 사용자 키워드와 비슷한 문구는 markdown의 태그를 활용해서 녹색으로 표시해줘.
+        리뷰내용에 사용자 키워드와 비슷한 문구는 markdown의 <span style="color:orange">비슷한문구</span> 태그를 활용해서 녹색으로 표시해줘.
         만약 제공된 정보 중 사용자 키워드와 관계된 내용이 없다면 제공된 정보를 사용하지 말고 키워드 중심으로 적절하게 리뷰를 400자 내로 작성해주세요.
         다른 안내 문장은 제공하지 말고 여행 리뷰만 작성해줘."""
 
@@ -331,6 +331,7 @@ def execute_query_and_return_df(sql):
     finally:
         conn.close()
     return df
+
 
 def scan_using_bedrock(image, user_keyword) :
     base64_encoded_image = get_image_base64(image)
