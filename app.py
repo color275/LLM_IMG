@@ -482,6 +482,7 @@ def main():
 
         st.sidebar.markdown('---')
         st.title("RAG Embedding")
+        st.caption("관리자 only")
         pdf_file = st.file_uploader(
             "PDF 업로드를 통해 추가 학습을 할 수 있습니다.", type=["pdf"], key=None)
         
