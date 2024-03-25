@@ -503,40 +503,44 @@ def main():
                 st.success(f"{record_cnt} Vector 임베딩 완료!")
 
     
-    
-    if 'img_file' in st.session_state and not user_keyword :
-        st.error('파일을 업로드하기 전에 키워드를 입력해주세요.')            
+    try :
+        if 'img_file' in st.session_state and not user_keyword :
+            st.error('파일을 업로드하기 전에 키워드를 입력해주세요.')            
 
-    elif 'img_file' in st.session_state :
-        
-        col1, col2 = st.columns(2)
+        elif 'img_file' in st.session_state :
+            
+            with st.spinner('리뷰 작성중...:hourglass:'):
+                col1, col2 = st.columns(2)
 
-        image = Image.open(st.session_state['img_file'])        
-        # image = resize_image(image)
+                image = Image.open(st.session_state['img_file'])        
+                # image = resize_image(image)
 
-        image_description = scan_using_bedrock(image, st.session_state['user_keyword'])
-        review = find_answer_in_sentences(image_description, st.session_state['user_keyword'])
+                image_description = scan_using_bedrock(image, st.session_state['user_keyword'])
+                review = find_answer_in_sentences(image_description, st.session_state['user_keyword'])
 
-        with col1:
-            st.subheader("📷 Image")
-            st.image(image, caption='Uploaded Image.', use_column_width=True)
+                with col1:
+                    st.subheader("📷 Image")
+                    st.image(image, caption='Uploaded Image.', use_column_width=True)
 
-        with col2:
-            st.subheader("🔍 Review")
-            st.markdown(review, unsafe_allow_html=True)
+                with col2:
+                    st.subheader("🔍 Review")
+                    st.markdown(review, unsafe_allow_html=True)
 
-        
-        st.sidebar.markdown('---')
-        ref1, ref2, ref3 = st.columns([1,3,3])
-        with ref1 :
-            st.write("📝 입력 Keyword")
-            st.markdown(st.session_state['user_keyword'], unsafe_allow_html=True)
-        with ref2 :
-            st.write("📝 Keyword + Image 기반 LLM")
-            st.markdown(image_description, unsafe_allow_html=True)
-        with ref3 :
-            st.write("📝 Keyword + Image + RAG 기반 LLM")
-            st.markdown(review, unsafe_allow_html=True)
+                
+                st.markdown('---')
+                st.subheader(":thinking_face: 리뷰 생성 과정")
+                ref1, ref2, ref3 = st.columns([1,3,3])
+                with ref1 :
+                    st.write("📝 입력 Keyword")
+                    st.markdown(st.session_state['user_keyword'], unsafe_allow_html=True)
+                with ref2 :
+                    st.write("📝 Keyword + Image 기반 LLM")
+                    st.markdown(image_description, unsafe_allow_html=True)
+                with ref3 :
+                    st.write("📝 Keyword + Image + RAG 기반 LLM")
+                    st.markdown(review, unsafe_allow_html=True)
+    except Exception as e :
+        st.error('죄송합니다. 리뷰 작성 중 오류가 발생했습니다. 다시 한번 실행해주세요.', icon="🚨")
     
     
 
