@@ -224,8 +224,6 @@ def extract_sentences_from_pdf(opensearch_client, pdf_file, progress_bar, progre
 
 def find_answer_in_sentences(image_description, user_keyword):
     try:
-        # question = question + " 정보가 없다는 이야기는 하지 말고, 제공된 정보를 바탕으로 너가 SQL을 만들어줘."
-        # 이미지 정보, 사용자 키워드 그리고 제공된 정보를 바탕으로 리뷰를 보완해서 작성해주세요.
         question = f"""
         이 이미지는 "{image_description}"와 관련이 있습니다. 
         사용자가 제시한 사용자 키워드는 "{user_keyword}" 입니다.
@@ -233,6 +231,16 @@ def find_answer_in_sentences(image_description, user_keyword):
         리뷰내용에 사용자 키워드와 비슷한 문구는 markdown의 태그를 활용해서 녹색으로 표시해줘.
         만약 제공된 정보 중 사용자 키워드와 관계된 내용이 없다면 제공된 정보를 사용하지 말고 키워드 중심으로 적절하게 리뷰를 400자 내로 작성해주세요.
         다른 안내 문장은 제공하지 말고 여행 리뷰만 작성해줘."""
+
+        # question = f"""
+        # 당신은 여행 중 찍은 사진으로 "{image_description}" 라고 리뷰내용을 이미 작성했다.
+        # 추가 제공된 정보에 리뷰내용을 보충할 정보가 있다면 보충해줘.
+        # 보충할 내용이 없으면 리뷰내용을 그대로 출력해줘.
+        # 리뷰내용에 사용자 키워드인 "{user_keyword} 와 비슷한 문구는 markdown의 태그를 활용해서 녹색으로 표시해줘
+        # 여행제목의 글자색은 흰색으로 표시해줘.
+        # 여행리뷰만 보여줘.
+        # 앞 뒤로 안내 멘트는 없애줘.
+        # """
 
         print("## question : ",question)
 
@@ -337,6 +345,13 @@ def scan_using_bedrock(image, user_keyword) :
     리뷰는 200글자 이내로 요약해주세요.
     한글로 작성해주세요.
     """
+    # prompt = f"""
+    # 당신은 여행 중에 기억에 남기고 싶은 순간을 사진으로 찍었습니다.
+    # 그리고 사진에 대해 "{user_keyword}" 주제로 리뷰를 작성합니다.
+    # 리뷰는 200글자 이내로 요약해주세요.
+    # 1인칭 시점으로 작성해주세요.
+    # 한글로 작성해주세요.
+    # """
 
     payload = {
         "modelId": "anthropic.claude-3-sonnet-20240229-v1:0",
